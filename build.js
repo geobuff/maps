@@ -79,9 +79,14 @@ const mapSVG = (json) => {
 };
 
 const getClassName = (file) => {
-	return capitalize(file.substring(0, file.indexOf('.')));
+	const removeExt = file.substring(0, file.indexOf('.'));
+	const spaces = removeExt.split("-").join(" ");
+	const titleCase = toTitleCase(spaces);
+	return titleCase.split(" ").join("");
 };
 
-const capitalize = (text) => {
-	return text.charAt(0).toUpperCase() + text.slice(1);
-};
+const toTitleCase = (input) => {
+	return input.replace(/\w\S*/g, text => {
+		return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+	});
+}
