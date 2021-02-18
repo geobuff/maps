@@ -5,21 +5,9 @@ const svgson = require('svgson');
 const jsFile = "./index.js";
 const svgFolder = "./svgs";
 
-fs.readdir(svgFolder, (err, files) => {
-	if (err) {
-		console.log(`Unable to scan directory ${svgFolder}.`, err);
-		return;
-	}
+let build = {};
 
-	checkIndex();
-	files.forEach(file => {
-		if (path.extname(file) === '.svg') {
-			convertToJs(file);
-		}
-	})
-});
-
-const checkIndex = () => {
+build.checkIndex = () => {
 	if (fs.existsSync(jsFile)) {
 		if (fs.existsSync(jsFile)) {
 			try {
@@ -32,30 +20,30 @@ const checkIndex = () => {
 	}
 };
 
-const convertToJs = (file) => {
+build.convertToJs = (file) => {
 	fs.readFile(`${svgFolder}/${file}`, 'utf8', (err, data) => {
 		if (err) {
 			console.error(`Unable to read file ${file}.`, err);
 			return;
 		}
 
-		parse(data, file);
+		build.parse(data, file);
 	});
 }
 
-const parse = (data, file) => {
+build.parse = (data, file) => {
 	svgson.parse(data)
 		.then(json => {
-			const svg = mapSVG(json);
-			const js = `module.exports.${getClassName(file)} = ${JSON.stringify(svg)}\n\n`;
-			appendToFile(js);
+			const svg = build.mapSVG(json);
+			const js = `module.exports.${build.getClassName(file)} = ${JSON.stringify(svg)}\n\n`;
+			build.appendToFile(js);
 		})
 		.catch(err => {
 			console.error(`Unable to parse ${file}`, err);
 		});
 };
 
-const appendToFile = (js) => {
+build.appendToFile = (js) => {
 	fs.appendFile(jsFile, js, 'utf8', err => {
 		if (err) {
 			console.error(`Unable to write file ${jsFile}`, err);
@@ -64,7 +52,7 @@ const appendToFile = (js) => {
 	});
 }
 
-const mapSVG = (json) => {
+build.mapSVG = (json) => {
 	return {
 		label: json.attributes['aria-label'],
 		viewBox: json.attributes.viewBox,
@@ -78,15 +66,31 @@ const mapSVG = (json) => {
 	};
 };
 
-const getClassName = (file) => {
+build.getClassName = (file) => {
 	const removeExt = file.substring(0, file.indexOf('.'));
 	const spaces = removeExt.split("-").join(" ");
-	const titleCase = toTitleCase(spaces);
+	const titleCase = build.toTitleCase(spaces);
 	return titleCase.split(" ").join("");
 };
 
-const toTitleCase = (input) => {
+build.toTitleCase = (input) => {
 	return input.replace(/\w\S*/g, text => {
 		return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
 	});
 }
+
+fs.readdir(svgFolder, (err, files) => {
+	if (err) {
+		console.log(`Unable to scan directory ${svgFolder}.`, err);
+		return;
+	}
+
+	build.checkIndex();
+	files.forEach(file => {
+		if (path.extname(file) === '.svg') {
+			build.convertToJs(file);
+		}
+	})
+});
+
+module.exports = build;
