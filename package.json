@@ -1,6 +1,6 @@
 {
     "name": "@geobuff/maps",
-    "version": "1.24.0",
+    "version": "1.25.0",
     "description": "Maps used by the team at geobuff.com.",
     "license": "MIT",
     "repository": "geobuff/maps",
