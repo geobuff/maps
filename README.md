@@ -14,7 +14,7 @@ A collection of free-to-use maps.
 - South America, Countries
 - Oceania, Countries
 - Argentina, Provinces
-- Australia, States
+- Australia, States and Territories
 - Brazil, States
 - Canada, Provinces and Territories 	
 - France, Regions
@@ -22,8 +22,8 @@ A collection of free-to-use maps.
 - India, States and Union Territories
 - Japan, Prefectures
 - Mexico, States
-- New Zealand, Provinces
-- Nigeria, Provinces
+- New Zealand, Regions
+- Nigeria, States
 - Turkey, Provinces
 - US, States
 - UK, Counties
