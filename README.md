@@ -49,6 +49,5 @@ export default ExampleComponent;
 | Nigeria, States | NigeriaStates |
 | Turkey, Provinces | TurkeyProvinces |
 | US, States | UsStates |
-| UK, Counties | UkCounties |
 | Uganda, Districts | UgandaDistricts |
 | Zambia, Provinces | ZambiaProvinces |
